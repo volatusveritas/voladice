@@ -1,4 +1,5 @@
 from __future__ import annotations
+from typing import Callable
 import random
 
 
@@ -21,8 +22,12 @@ class Result:
     def get_total(self) -> int:
         return sum(self._rolls)
 
-    def filter(self) -> None:
-        ...
+    def filter(
+        self, filter_func: Callable[[int, int], bool], target: int
+    ) -> Result:
+        return Result(
+            [roll for roll in self._rolls if filter_func(roll, target)]
+        )
 
 
 class Dice:
